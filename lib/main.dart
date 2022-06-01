@@ -68,7 +68,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-
+  // TODO: study send port and receive port
   @override
   void initState() {
     super.initState();
