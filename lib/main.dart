@@ -1,12 +1,11 @@
 import 'dart:isolate';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
 }
-
-
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -42,11 +41,22 @@ void isolateFunction(int finalNum) {
     if (moduleHundred) {
       print("isolate ${_count.toString()}");
     }
-    
   }
 }
 
+int computeFunction(int finalNum) {
+  int _count = 0;
 
+  for (var i = 0; i < finalNum; i++) {
+    _count++;
+    bool moduleHundred = _count % 100 == 0;
+    if (moduleHundred) {
+      print("compute ${_count.toString()}");
+    }
+  }
+
+  return _count;
+}
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -71,6 +81,11 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  Future<void> runCompute() async {
+    _counter = await compute(computeFunction, 2000);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,6 +102,11 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
+            ),
+            FloatingActionButton(
+              onPressed: runCompute,
+              tooltip: 'Compute',
+              child: const Icon(Icons.computer),
             ),
           ],
         ),
