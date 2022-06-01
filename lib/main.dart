@@ -1,8 +1,12 @@
+import 'dart:isolate';
+
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
 }
+
+
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -29,6 +33,21 @@ class MyApp extends StatelessWidget {
   }
 }
 
+void isolateFunction(int finalNum) {
+  int _count = 0;
+
+  for (var i = 0; i < finalNum; i++) {
+    _count++;
+    bool moduleHundred = _count % 100 == 0;
+    if (moduleHundred) {
+      print("isolate ${_count.toString()}");
+    }
+    
+  }
+}
+
+
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
@@ -39,6 +58,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    Isolate.spawn(isolateFunction, 1000);
+  }
 
   void _incrementCounter() {
     setState(() {
